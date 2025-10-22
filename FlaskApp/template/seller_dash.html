@@ -1,0 +1,1049 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard - OwlExchange</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/globals.css') }}"> <!-- Global resets and variables -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> <!-- Main site-wide styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" /> <!-- Component-specific styles -->
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="menu-toggle" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <h1 class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">🦉 OwlExchange</a></h1>
+                </div>
+
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Browse</a>
+                    <a href="sell.html" class="nav-link">Sell</a>
+                    <a href="exchange.html" class="nav-link">Exchange</a>
+                    <a href="donate.html" class="nav-link">Donate</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </nav>
+
+                <div class="search-container">
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" placeholder="Search items..." class="search-input">
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn-icon search-mobile">
+                        <i data-lucide="search"></i>
+                    </button>
+                    <button class="btn-icon" onclick="window.location.href='cart.html'">
+                        <i data-lucide="shopping-cart"></i>
+                    </button>
+                    <button class="btn-icon">
+                        <i data-lucide="user"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="seller-dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Seller Dashboard</h1>
+                <p>Manage your listings, track sales, and grow your business</p>
+                <div class="seller-info">
+                    <div class="seller-avatar">SM</div>
+                    <div class="seller-details">
+                        <h3>Sarah Martinez</h3>
+                        <p>Engineering Student • Member since Jan 2025</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upgrade Banner -->
+            <div class="upgrade-banner">
+                <div class="upgrade-content">
+                    <h3>🚀 Upgrade to Premium Seller</h3>
+                    <p>Get unlimited listings, priority placement, and advanced analytics</p>
+                </div>
+                <button class="upgrade-btn">
+                    Upgrade Now
+                </button>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="dashboard-nav">
+                <button class="tab-btn active" data-tab="overview">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Overview</span>
+                </button>
+                <button class="tab-btn" data-tab="listings">
+                    <i data-lucide="package"></i>
+                    <span>My Listings</span>
+                </button>
+                <button class="tab-btn" data-tab="add-listing">
+                    <i data-lucide="plus-circle"></i>
+                    <span>Add New Item</span>
+                </button>
+                <button class="tab-btn" data-tab="sales">
+                    <i data-lucide="shopping-bag"></i>
+                    <span>Sales & Orders</span>
+                </button>
+                <button class="tab-btn" data-tab="inventory">
+                    <i data-lucide="box"></i>
+                    <span>Inventory</span>
+                </button>
+                <button class="tab-btn" data-tab="settings">
+                    <i data-lucide="settings"></i>
+                    <span>Settings</span>
+                </button>
+            </nav>
+
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overview">
+                <!-- Metrics Cards -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon blue">
+                                <i data-lucide="package"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Active Listings</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">12</div>
+                        <div class="metric-change neutral">
+                            <i data-lucide="minus"></i>
+                            <span>No change from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon green">
+                                <i data-lucide="dollar-sign"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Total Sales</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">$487</div>
+                        <div class="metric-change positive">
+                            <i data-lucide="trending-up"></i>
+                            <span>+15% from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon purple">
+                                <i data-lucide="eye"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Interested Buyers</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">8</div>
+                        <div class="metric-change positive">
+                            <i data-lucide="trending-up"></i>
+                            <span>+3 new this week</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon orange">
+                                <i data-lucide="star"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Seller Rating</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">4.8</div>
+                        <div class="metric-change positive">
+                            <i data-lucide="trending-up"></i>
+                            <span>Based on 24 reviews</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="action-card" onclick="switchTab('add-listing')">
+                        <div class="action-card-icon" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                            <i data-lucide="plus" style="width: 32px; height: 32px;"></i>
+                        </div>
+                        <h3>List New Item</h3>
+                        <p>Post a new item to sell or give away</p>
+                    </div>
+
+                    <div class="action-card" onclick="switchTab('listings')">
+                        <div class="action-card-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                            <i data-lucide="edit" style="width: 32px; height: 32px;"></i>
+                        </div>
+                        <h3>Manage Listings</h3>
+                        <p>Edit or remove your existing items</p>
+                    </div>
+
+                    <div class="action-card" onclick="switchTab('sales')">
+                        <div class="action-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                            <i data-lucide="trending-up" style="width: 32px; height: 32px;"></i>
+                        </div>
+                        <h3>View Sales</h3>
+                        <p>Track your transactions and earnings</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="orders-container">
+                    <div class="orders-header">
+                        <h2>Recent Activity</h2>
+                    </div>
+                    <div class="orders-list">
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Calculus Textbook (11th Edition)</h4>
+                                    <p class="order-id">Listed 2 hours ago</p>
+                                </div>
+                                <span class="order-status interested">2 Interested</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$45.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="eye"></i>
+                                    <span>28 views</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Dorm Desk Chair - Blue</h4>
+                                    <p class="order-id">Sale completed • 1 day ago</p>
+                                </div>
+                                <span class="order-status completed">Sold</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$30.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="user"></i>
+                                    <span>Mike Thompson</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Winter Coat - Medium</h4>
+                                    <p class="order-id">Listed 3 days ago</p>
+                                </div>
+                                <span class="order-status interested">1 Interested</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="gift"></i>
+                                    <span>Free (Donation)</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="eye"></i>
+                                    <span>42 views</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Listings Tab -->
+            <div class="tab-content" id="listings">
+                <div class="orders-container" style="margin-bottom: 2rem;">
+                    <div class="orders-header">
+                        <h2>My Listings (12 items)</h2>
+                        <div class="filter-tabs">
+                            <button class="active">All</button>
+                            <button>In Stock</button>
+                            <button>Out of Stock</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="listings-grid">
+                    <!-- Listing Card 1 -->
+                    <div class="listing-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1755620500895-b693799658ee?w=400" alt="Calculus Textbook" class="listing-image">
+                            <span class="listing-badge in-stock">In Stock</span>
+                        </div>
+                        <div class="listing-content">
+                            <h3 class="listing-title">Calculus Textbook (11th Edition)</h3>
+                            <p class="listing-description">Only used for one semester, in excellent condition with minimal highlighting.</p>
+                            <div class="listing-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">Price:</span>
+                                    <span class="meta-value">$45.00</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Views:</span>
+                                    <span class="meta-value">28</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Interested:</span>
+                                    <span class="meta-value">2</span>
+                                </div>
+                            </div>
+                            <div class="listing-actions">
+                                <button class="edit-btn">
+                                    <i data-lucide="edit"></i>
+                                    <span>Edit</span>
+                                </button>
+                                <button class="delete-btn">
+                                    <i data-lucide="trash-2"></i>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Listing Card 2 -->
+                    <div class="listing-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1694151569569-8288e3118519?w=400" alt="Study Lamp" class="listing-image">
+                            <span class="listing-badge in-stock">In Stock</span>
+                        </div>
+                        <div class="listing-content">
+                            <h3 class="listing-title">LED Desk Lamp - Adjustable</h3>
+                            <p class="listing-description">Modern LED desk lamp with adjustable brightness and color temperature.</p>
+                            <div class="listing-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">Price:</span>
+                                    <span class="meta-value">$20.00</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Views:</span>
+                                    <span class="meta-value">15</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Interested:</span>
+                                    <span class="meta-value">0</span>
+                                </div>
+                            </div>
+                            <div class="listing-actions">
+                                <button class="edit-btn">
+                                    <i data-lucide="edit"></i>
+                                    <span>Edit</span>
+                                </button>
+                                <button class="delete-btn">
+                                    <i data-lucide="trash-2"></i>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Listing Card 3 -->
+                    <div class="listing-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1585155770095-17ba53a46a27?w=400" alt="Study Supplies" class="listing-image">
+                            <span class="listing-badge in-stock">In Stock</span>
+                        </div>
+                        <div class="listing-content">
+                            <h3 class="listing-title">Study Supplies Bundle</h3>
+                            <p class="listing-description">Complete set of notebooks, pens, highlighters, and sticky notes.</p>
+                            <div class="listing-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">Price:</span>
+                                    <span class="meta-value">$15.00</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Views:</span>
+                                    <span class="meta-value">32</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Interested:</span>
+                                    <span class="meta-value">1</span>
+                                </div>
+                            </div>
+                            <div class="listing-actions">
+                                <button class="edit-btn">
+                                    <i data-lucide="edit"></i>
+                                    <span>Edit</span>
+                                </button>
+                                <button class="delete-btn">
+                                    <i data-lucide="trash-2"></i>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Listing Card 4 - Out of Stock -->
+                    <div class="listing-card">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1716471081169-cb8528a395d3?w=400" alt="Laptop Stand" class="listing-image">
+                            <span class="listing-badge out-of-stock">Sold</span>
+                        </div>
+                        <div class="listing-content">
+                            <h3 class="listing-title">Laptop Stand - Aluminum</h3>
+                            <p class="listing-description">Ergonomic laptop stand, barely used and in perfect condition.</p>
+                            <div class="listing-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">Price:</span>
+                                    <span class="meta-value">$25.00</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Views:</span>
+                                    <span class="meta-value">56</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Sold to:</span>
+                                    <span class="meta-value">Alex K.</span>
+                                </div>
+                            </div>
+                            <div class="listing-actions">
+                                <button class="edit-btn">
+                                    <i data-lucide="archive"></i>
+                                    <span>Archive</span>
+                                </button>
+                                <button class="delete-btn">
+                                    <i data-lucide="trash-2"></i>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add New Listing Tab -->
+            <div class="tab-content" id="add-listing">
+                <div class="form-container">
+                    <h2 style="margin-bottom: 2rem;">List a New Item</h2>
+                    
+                    <form id="listingForm">
+                        <!-- Basic Information -->
+                        <div class="form-section">
+                            <h3>Basic Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="itemTitle">Item Title *</label>
+                                <input type="text" id="itemTitle" placeholder="e.g., Calculus Textbook (11th Edition)" required>
+                                <p class="form-help">Be specific and descriptive</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="itemDescription">Description *</label>
+                                <textarea id="itemDescription" placeholder="Describe the condition, features, and any important details..." required></textarea>
+                                <p class="form-help">Include condition, usage history, and why you're selling</p>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="itemCategory">Category *</label>
+                                    <select id="itemCategory" required>
+                                        <option value="">Select a category</option>
+                                        <option value="textbooks">Textbooks</option>
+                                        <option value="electronics">Electronics</option>
+                                        <option value="furniture">Furniture</option>
+                                        <option value="clothing">Clothing</option>
+                                        <option value="school-supplies">School Supplies</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="itemCondition">Condition *</label>
+                                    <select id="itemCondition" required>
+                                        <option value="">Select condition</option>
+                                        <option value="new">New</option>
+                                        <option value="like-new">Like New</option>
+                                        <option value="good">Good</option>
+                                        <option value="fair">Fair</option>
+                                        <option value="poor">Poor</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pricing & Availability -->
+                        <div class="form-section">
+                            <h3>Pricing & Availability</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="listingType">Listing Type *</label>
+                                    <select id="listingType" required>
+                                        <option value="sell">Sell</option>
+                                        <option value="exchange">Exchange</option>
+                                        <option value="donate">Donate (Free)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="itemPrice">Price *</label>
+                                    <input type="number" id="itemPrice" placeholder="0.00" step="0.01" min="0">
+                                    <p class="form-help">Set to $0 for free items</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="itemQuantity">Quantity *</label>
+                                    <input type="number" id="itemQuantity" value="1" min="1" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Images -->
+                        <div class="form-section">
+                            <h3>Photos</h3>
+                            
+                            <div class="form-group">
+                                <label class="image-upload" for="itemImages">
+                                    <input type="file" id="itemImages" accept="image/*" multiple>
+                                    <div class="upload-icon">
+                                        <i data-lucide="upload" style="width: 48px; height: 48px;"></i>
+                                    </div>
+                                    <p><strong>Click to upload</strong> or drag and drop</p>
+                                    <p class="form-help">PNG, JPG up to 10MB (max 5 images)</p>
+                                </label>
+                                <div class="image-preview-grid" id="imagePreviewGrid"></div>
+                            </div>
+                        </div>
+
+                        <!-- Pickup Location -->
+                        <div class="form-section">
+                            <h3>Pickup Details</h3>
+                            
+                            <div class="form-group">
+                                <label for="pickupLocation">Campus Pickup Location *</label>
+                                <select id="pickupLocation" required>
+                                    <option value="">Select location</option>
+                                    <option value="student-center">Student Center</option>
+                                    <option value="library">Main Library</option>
+                                    <option value="dorm-common">Dorm Common Area</option>
+                                    <option value="engineering-building">Engineering Building</option>
+                                    <option value="other">Other (arrange with buyer)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pickupNotes">Additional Pickup Notes</label>
+                                <textarea id="pickupNotes" placeholder="Any special instructions for pickup..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="submit" class="submit-btn">
+                                <i data-lucide="check"></i>
+                                Publish Listing
+                            </button>
+                            <button type="button" class="cancel-btn" onclick="switchTab('overview')">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sales & Orders Tab -->
+            <div class="tab-content" id="sales">
+                <div class="orders-container">
+                    <div class="orders-header">
+                        <h2>Sales & Orders</h2>
+                        <div class="filter-tabs">
+                            <button class="active">All</button>
+                            <button>Interested</button>
+                            <button>Pending</button>
+                            <button>Completed</button>
+                        </div>
+                    </div>
+                    <div class="orders-list">
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Jessica Lee is interested in: Calculus Textbook</h4>
+                                    <p class="order-id">Order #1024 • 2 hours ago</p>
+                                </div>
+                                <span class="order-status interested">Interested</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$45.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="mail"></i>
+                                    <span>jessica.l@university.edu</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Mike Thompson purchased: Dorm Desk Chair</h4>
+                                    <p class="order-id">Order #1023 • 1 day ago</p>
+                                </div>
+                                <span class="order-status completed">Completed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$30.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="calendar"></i>
+                                    <span>Pickup: Mar 12, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Alex Kim is interested in: Study Supplies Bundle</h4>
+                                    <p class="order-id">Order #1022 • 2 days ago</p>
+                                </div>
+                                <span class="order-status interested">Interested</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$15.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="mail"></i>
+                                    <span>alex.k@university.edu</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Emma Rodriguez purchased: Laptop Stand</h4>
+                                    <p class="order-id">Order #1021 • 3 days ago</p>
+                                </div>
+                                <span class="order-status completed">Completed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$25.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="calendar"></i>
+                                    <span>Pickup: Mar 10, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Ryan Brown purchased: Chemistry Lab Manual</h4>
+                                    <p class="order-id">Order #1020 • 5 days ago</p>
+                                </div>
+                                <span class="order-status completed">Completed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$35.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="calendar"></i>
+                                    <span>Pickup: Mar 8, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Tab -->
+            <div class="tab-content" id="inventory">
+                <div class="orders-container">
+                    <div class="orders-header">
+                        <h2>Inventory Management</h2>
+                    </div>
+                    <div class="orders-list">
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Calculus Textbook (11th Edition)</h4>
+                                    <p class="order-id">SKU: CALC-11-001</p>
+                                </div>
+                                <span class="order-status interested">In Stock (1)</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="package"></i>
+                                    <span>Textbooks</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$45.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <button class="edit-btn" style="padding: 0.5rem 1rem;">Mark as Sold</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>LED Desk Lamp - Adjustable</h4>
+                                    <p class="order-id">SKU: LAMP-LED-002</p>
+                                </div>
+                                <span class="order-status interested">In Stock (1)</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="package"></i>
+                                    <span>Electronics</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$20.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <button class="edit-btn" style="padding: 0.5rem 1rem;">Mark as Sold</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Study Supplies Bundle</h4>
+                                    <p class="order-id">SKU: SUPP-BUN-003</p>
+                                </div>
+                                <span class="order-status interested">In Stock (1)</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="package"></i>
+                                    <span>School Supplies</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$15.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <button class="edit-btn" style="padding: 0.5rem 1rem;">Mark as Sold</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Laptop Stand - Aluminum</h4>
+                                    <p class="order-id">SKU: STAND-ALU-004</p>
+                                </div>
+                                <span class="order-status completed">Out of Stock</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="package"></i>
+                                    <span>Electronics</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$25.00 (Sold)</span>
+                                </div>
+                                <div class="order-detail">
+                                    <button class="edit-btn" style="padding: 0.5rem 1rem;">Relist Item</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings">
+                <div class="settings-container">
+                    <!-- Account Information -->
+                    <div class="settings-section">
+                        <h3>Account Information</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Name</h4>
+                                <p>Sarah Martinez</p>
+                            </div>
+                            <button class="edit-btn" style="padding: 0.75rem 1.5rem;">Edit</button>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Email</h4>
+                                <p>sarah.m@university.edu</p>
+                            </div>
+                            <button class="edit-btn" style="padding: 0.75rem 1.5rem;">Edit</button>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Student Status</h4>
+                                <p>Verified • Engineering Student</p>
+                            </div>
+                            <span class="order-status completed">Verified</span>
+                        </div>
+                    </div>
+
+                    <!-- Seller Profile -->
+                    <div class="settings-section">
+                        <h3>Seller Profile</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Bio</h4>
+                                <p>Engineering student selling textbooks and dorm essentials</p>
+                            </div>
+                            <button class="edit-btn" style="padding: 0.75rem 1.5rem;">Edit</button>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Preferred Pickup Locations</h4>
+                                <p>Student Center, Main Library</p>
+                            </div>
+                            <button class="edit-btn" style="padding: 0.75rem 1.5rem;">Edit</button>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="settings-section">
+                        <h3>Notifications</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Email Notifications</h4>
+                                <p>Get notified when buyers are interested in your items</p>
+                            </div>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" checked>
+                                <span>Enabled</span>
+                            </label>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Sale Confirmations</h4>
+                                <p>Receive email when items are sold</p>
+                            </div>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" checked>
+                                <span>Enabled</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Account Plan -->
+                    <div class="settings-section">
+                        <h3>Account Plan</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Current Plan</h4>
+                                <p>Free Seller • 10 active listings max</p>
+                            </div>
+                            <button class="upgrade-btn" style="padding: 0.75rem 1.5rem;">Upgrade to Premium</button>
+                        </div>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="settings-section">
+                        <h3>Danger Zone</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Delete Account</h4>
+                                <p>Permanently delete your account and all listings</p>
+                            </div>
+                            <button class="delete-btn" style="padding: 0.75rem 1.5rem;">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>🦉 OwlExchange</h3>
+                    <p>
+                        The sustainable marketplace for students to buy, sell, exchange, and donate items within their campus community.
+                    </p>
+                    <div class="social-links">
+                        <button class="btn-icon">
+                            <i data-lucide="instagram"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i data-lucide="twitter"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i data-lucide="mail"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Safety Guidelines</a></li>
+                        <li><a href="#">Campus Pickup</a></li>
+                        <li><a href="#">Student Verification</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Report an Issue</a></li>
+                        <li><a href="#">Community Guidelines</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Stay Connected</h4>
+                    <p>
+                        Get notified about new listings and sustainability tips.
+                    </p>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Student email" class="newsletter-input">
+                        <button class="btn-primary newsletter-btn">Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 OwlExchange. Building sustainable campus communities.</p>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Accessibility</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab Navigation
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        function switchTab(tabName) {
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to the target tab
+            const targetButton = document.querySelector(`[data-tab="${tabName}"]`);
+            const targetContent = document.getElementById(tabName);
+            
+            if (targetButton && targetContent) {
+                targetButton.classList.add('active');
+                targetContent.classList.add('active');
+            }
+            
+            // Re-initialize Lucide icons for the new content
+            lucide.createIcons();
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.getAttribute('data-tab');
+                switchTab(tabName);
+            });
+        });
+
+        // Image Upload Preview
+        const imageInput = document.getElementById('itemImages');
+        const previewGrid = document.getElementById('imagePreviewGrid');
+        let uploadedImages = [];
+
+        imageInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            
+            files.forEach(file => {
+                if (uploadedImages.length >= 5) {
+                    alert('Maximum 5 images allowed');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    uploadedImages.push(event.target.result);
+                    renderImagePreviews();
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        function renderImagePreviews() {
+            previewGrid.innerHTML = '';
+            uploadedImages.forEach((image, index) => {
+                const previewDiv = document.createElement('div');
+                previewDiv.className = 'image-preview';
+                previewDiv.innerHTML = `
+                    <img src="${image}" alt="Preview ${index + 1}">
+                    <button type="button" class="image-preview-remove" onclick="removeImage(${index})">
+                        <i data-lucide="x"></i>
+                    </button>
+                `;
+                previewGrid.appendChild(previewDiv);
+            });
+            lucide.createIcons();
+        }
+
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            renderImagePreviews();
+        }
+
+        // Form Submission
+        document.getElementById('listingForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Listing published successfully! Your item is now live on the marketplace.');
+            switchTab('listings');
+        });
+
+        // Listing Type Price Logic
+        document.getElementById('listingType').addEventListener('change', (e) => {
+            const priceInput = document.getElementById('itemPrice');
+            if (e.target.value === 'donate') {
+                priceInput.value = '0.00';
+                priceInput.disabled = true;
+            } else {
+                priceInput.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

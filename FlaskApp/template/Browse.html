@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Page title -->
+    <title>Browse Items - OwlExchange</title>
+    <meta name="description" content="Browse items for sale on OwlExchange.">
+
+    <!-- Stylesheets -->
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/globals.css') }}"> <!-- Global resets and variables -->
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> <!-- Main site-wide styles -->
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" /> <!-- Component-specific styles -->
+
+    <!-- Lucide icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="menu-toggle" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <h1 class="logo">🦉 OwlExchange</h1>
+                </div>
+
+                <!-- Nav -->
+                <nav class="nav">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/browse" class="nav-link active">Browse</a>
+                    <a href="/sell" class="nav-link">Sell</a>
+                    <a href="/exchange" class="nav-link">Exchange</a>
+                    <a href="/donate" class="nav-link">Donate</a>
+                    <a href="/about" class="nav-link">About</a>
+                </nav>
+
+                <!-- Search -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" placeholder="Search items for sale..." class="search-input" id="searchInput">
+                    </div>
+                </div>
+
+                <!-- User actions -->
+                <div class="header-actions">
+                
+                 <a href="/auth" class="btn btn-icon">
+                    <i data-lucide="user"></i>
+                    <span> Join Us! </span>
+                    </a>
+                 <!-- cart button-->
+                    <button class="btn-icon" onclick="window.location.href='cart.html'">
+                        <i data-lucide="shopping-cart"></i>
+                        <span class="cart-badge" id="cartBadge">3</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero section -->
+    <section class="hero browse-hero">
+        <div class="hero-bg">
+            <img src="{{ url_for('static', filename='images/KSU_IMAGE_2.jpg') }}" class="hero-image" alt="Many Students around the KSU symbol">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="badge sustainability-badge">🔍 Explore Campus Listings</div>
+                <h1 class="hero-title">Browse Items for Sale</h1>
+                <p class="hero-description">
+                    Search and filter items posted by fellow students. Find the best deals on textbooks, electronics, furniture, and more.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="container">
+            <div class="section-header">
+                <h2>Popular Items for Sale</h2>
+                <p>See what's trending among students</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1755620500895-b693799658ee" alt="Textbook" class="category-image">
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <h3>Textbooks</h3>
+                        <p>Essential textbooks for all majors</p>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1694151569569-8288e3118519" alt="Dorm Furniture" class="category-image">
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <h3>Dorm Furniture</h3>
+                        <p>Chairs, desks, and more for student living</p>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1724763626380-ee4188fdcf6f" alt="Clothing" class="category-image">
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <h3>Clothing</h3>
+                        <p>Seasonal and professional apparel</p>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1716471081169-cb8528a395d3" alt="Electronics" class="category-image">
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <h3>Electronics</h3>
+                        <p>Laptops, calculators, and accessories</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>🦉 OwlExchange</h3>
+                    <p>The sustainable marketplace for students to buy, sell, exchange, and donate items within their campus community.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Safety Guidelines</a></li>
+                        <li><a href="#">Campus Pickup</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Report an Issue</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 OwlExchange. Building sustainable campus communities.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
