@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard - OwlExchange</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='globals.css') }}"> <!-- Global resets and variables -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"> <!-- Main site-wide styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" /> <!-- Component-specific styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='buyer_dash.css') }}" /> <!-- Component-specific styles -->
+    
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="menu-toggle" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <h1 class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">🦉 OwlExchange</a></h1>
+                </div>
+
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Browse</a>
+                    <a href="sell.html" class="nav-link">Sell</a>
+                    <a href="exchange.html" class="nav-link">Exchange</a>
+                    <a href="donate.html" class="nav-link">Donate</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </nav>
+
+                <div class="search-container">
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" placeholder="Search items..." class="search-input">
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn-icon search-mobile">
+                        <i data-lucide="search"></i>
+                    </button>
+                    <button class="btn-icon" onclick="window.location.href='cart.html'">
+                        <i data-lucide="shopping-cart"></i>
+                        <span class="cart-badge" style="position: absolute; top: 0.25rem; right: 0.25rem; background: var(--destructive); color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 0.75rem; display: flex; align-items: center; justify-content: center;">3</span>
+                    </button>
+                    <button class="btn-icon">
+                        <i data-lucide="user"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="buyer-dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>My Dashboard</h1>
+                <p>Track your purchases, saved items, and messages</p>
+                <div class="buyer-info">
+                    <div class="buyer-avatar">JD</div>
+                    <div class="buyer-details">
+                        <h3>John Davis</h3>
+                        <p>Biology Major • Member since Feb 2025</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upgrade to Seller Banner -->
+            <div class="upgrade-banner">
+                <div class="upgrade-content">
+                    <h3>💰 Start Selling on OwlExchange</h3>
+                    <p>Turn your unused items into cash! Upgrade to a seller account for free.</p>
+                </div>
+                <button class="upgrade-btn" onclick="window.location.href='seller-dashboard.html'">
+                    Become a Seller
+                </button>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="dashboard-nav">
+                <button class="tab-btn active" data-tab="overview">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Overview</span>
+                </button>
+                <button class="tab-btn" data-tab="saved">
+                    <i data-lucide="heart"></i>
+                    <span>Saved Items</span>
+                </button>
+                <button class="tab-btn" data-tab="purchases">
+                    <i data-lucide="shopping-bag"></i>
+                    <span>My Purchases</span>
+                </button>
+                <button class="tab-btn" data-tab="interested">
+                    <i data-lucide="eye"></i>
+                    <span>Interested Items</span>
+                </button>
+                <button class="tab-btn" data-tab="messages">
+                    <i data-lucide="message-circle"></i>
+                    <span>Messages</span>
+                </button>
+                <button class="tab-btn" data-tab="settings">
+                    <i data-lucide="settings"></i>
+                    <span>Settings</span>
+                </button>
+            </nav>
+
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overview">
+                <!-- Metrics Cards -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon blue">
+                                <i data-lucide="heart"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Saved Items</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">8</div>
+                        <p class="metric-subtitle">Items in your wishlist</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon green">
+                                <i data-lucide="shopping-bag"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Total Purchases</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">12</div>
+                        <p class="metric-subtitle">Items purchased so far</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon purple">
+                                <i data-lucide="message-circle"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Messages</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">5</div>
+                        <p class="metric-subtitle">Active conversations</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon orange">
+                                <i data-lucide="dollar-sign"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Total Spent</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">$328</div>
+                        <p class="metric-subtitle">Saved $142 vs retail</p>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="action-card" onclick="window.location.href='../index.html'">
+                        <div class="action-card-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                            <i data-lucide="search" style="width: 32px; height: 32px;"></i>
+                        </div>
+                        <h3>Browse Items</h3>
+                        <p>Discover new listings from students</p>
+                    </div>
+
+                    <div class="action-card" onclick="switchTab('saved')">
+                        <div class="action-card-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                            <i data-lucide="heart" style="width: 32px; height: 32px;"></i>
+                        </div>
+                        <h3>View Wishlist</h3>
+                        <p>Check your saved items</p>
+                    </div>
+
+                    <div class="action-card" onclick="window.location.href='cart.html'">
+                        <div class="action-card-icon" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                            <i data-lucide="shopping-cart" style="width: 32px; height: 32px;"></i>
+                        </div>
+                        <h3>View Cart</h3>
+                        <p>Complete your purchase</p>
+                    </div>
+                </div>
+
+                <!-- Recent Purchases -->
+                <div class="orders-container">
+                    <div class="orders-header">
+                        <h2>Recent Activity</h2>
+                    </div>
+                    <div class="orders-list">
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Dorm Desk Chair - Blue</h4>
+                                    <p class="order-id">Order #1023 • Purchased 1 day ago</p>
+                                </div>
+                                <span class="order-status completed">Completed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$30.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="user"></i>
+                                    <span>Seller: Mike Thompson</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="calendar"></i>
+                                    <span>Pickup: Mar 12, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Expressed interest in: Calculus Textbook</h4>
+                                    <p class="order-id">2 hours ago</p>
+                                </div>
+                                <span class="order-status pending">Pending Response</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$45.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="user"></i>
+                                    <span>Seller: Sarah Martinez</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Chemistry Lab Manual</h4>
+                                    <p class="order-id">Order #1020 • Purchased 5 days ago</p>
+                                </div>
+                                <span class="order-status completed">Completed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$35.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="user"></i>
+                                    <span>Seller: Emma Rodriguez</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="calendar"></i>
+                                    <span>Pickup: Mar 8, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Items Tab -->
+            <div class="tab-content" id="saved">
+                <div class="orders-container" style="margin-bottom: 2rem;">
+                    <div class="orders-header">
+                        <h2>Saved Items (8)</h2>
+                        <button class="btn-primary" style="padding: 0.75rem 1.5rem;">
+                            <i data-lucide="plus"></i>
+                            <span>Browse More</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="items-grid">
+                    <!-- Saved Item 1 -->
+                    <div class="item-card">
+                        <div class="item-image-container">
+                            <img src="https://images.unsplash.com/photo-1755620500895-b693799658ee?w=400" alt="Physics Textbook" class="item-image">
+                            <span class="item-badge sale">For Sale</span>
+                            <button class="favorite-btn active">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <h3 class="item-title">Physics Textbook (14th Edition)</h3>
+                            <p class="item-seller">
+                                <i data-lucide="user"></i>
+                                <span>Alex Kim</span>
+                            </p>
+                            <div class="item-price">$52.00</div>
+                            <div class="item-actions">
+                                <button class="add-cart-btn">
+                                    <i data-lucide="shopping-cart"></i>
+                                    <span>Add to Cart</span>
+                                </button>
+                                <button class="remove-btn">
+                                    <i data-lucide="heart-off"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saved Item 2 -->
+                    <div class="item-card">
+                        <div class="item-image-container">
+                            <img src="https://images.unsplash.com/photo-1716471081169-cb8528a395d3?w=400" alt="Monitor Stand" class="item-image">
+                            <span class="item-badge sale">For Sale</span>
+                            <button class="favorite-btn active">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <h3 class="item-title">Dual Monitor Stand</h3>
+                            <p class="item-seller">
+                                <i data-lucide="user"></i>
+                                <span>Lisa Wang</span>
+                            </p>
+                            <div class="item-price">$35.00</div>
+                            <div class="item-actions">
+                                <button class="add-cart-btn">
+                                    <i data-lucide="shopping-cart"></i>
+                                    <span>Add to Cart</span>
+                                </button>
+                                <button class="remove-btn">
+                                    <i data-lucide="heart-off"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saved Item 3 -->
+                    <div class="item-card">
+                        <div class="item-image-container">
+                            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=400" alt="Coffee Maker" class="item-image">
+                            <span class="item-badge sale">For Sale</span>
+                            <button class="favorite-btn active">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <h3 class="item-title">Mini Coffee Maker</h3>
+                            <p class="item-seller">
+                                <i data-lucide="user"></i>
+                                <span>Emma Rodriguez</span>
+                            </p>
+                            <div class="item-price">$18.00</div>
+                            <div class="item-actions">
+                                <button class="add-cart-btn">
+                                    <i data-lucide="shopping-cart"></i>
+                                    <span>Add to Cart</span>
+                                </button>
+                                <button class="remove-btn">
+                                    <i data-lucide="heart-off"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saved Item 4 -->
+                    <div class="item-card">
+                        <div class="item-image-container">
+                            <img src="https://images.unsplash.com/photo-1585155770095-17ba53a46a27?w=400" alt="Art Supplies" class="item-image">
+                            <span class="item-badge free">Free</span>
+                            <button class="favorite-btn active">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <h3 class="item-title">Art Supplies Bundle</h3>
+                            <p class="item-seller">
+                                <i data-lucide="user"></i>
+                                <span>Rachel Green</span>
+                            </p>
+                            <div class="item-price" style="color: #22c55e;">Free</div>
+                            <div class="item-actions">
+                                <button class="add-cart-btn">
+                                    <i data-lucide="gift"></i>
+                                    <span>Request Item</span>
+                                </button>
+                                <button class="remove-btn">
+                                    <i data-lucide="heart-off"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchases Tab -->
+            <div class="tab-content" id="purchases">
+                <div class="orders-container">
+                    <div class="orders-header">
+                        <h2>My Purchases</h2>
+                        <div class="filter-tabs">
+                            <button class="active">All</button>
+                            <button>Pending</button>
+                            <button>Confirmed</button>
+                            <button>Completed</button>
+                        </div>
+                    </div>
+                    <div class="orders-list">
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Dorm Desk Chair - Blue</h4>
+                                    <p class="order-id">Order #1023 • Mar 11, 2025</p>
+                                </div>
+                                <span class="order-status completed">Completed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$30.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="user"></i>
+                                    <span>Mike Thompson</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="map-pin"></i>
+                                    <span>Student Center</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="calendar"></i>
+                                    <span>Picked up: Mar 12, 2025</span>
+                                </div>
+                            </div>
+                            <div class="order-actions">
+                                <button class="message-btn">
+                                    <i data-lucide="message-circle"></i>
+                                    <span>Message Seller</span>
+                                </button>
+                                <button class="track-btn">
+                                    <i data-lucide="star"></i>
+                                    <span>Leave Review</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Laptop Stand - Aluminum</h4>
+                                    <p class="order-id">Order #1022 • Mar 10, 2025</p>
+                                </div>
+                                <span class="order-status confirmed">Confirmed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$25.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="user"></i>
+                                    <span>Sarah Martinez</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="map-pin"></i>
+                                    <span>Main Library</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="calendar"></i>
+                                    <span>Pickup: Mar 14, 2025</span>
+                                </div>
+                            </div>
+                            <div class="order-actions">
+                                <button class="message-btn">
+                                    <i data-lucide="message-circle"></i>
+                                    <span>Message Seller</span>
+                                </button>
+                                <button class="track-btn">
+                                    <i data-lucide="map"></i>
+                                    <span>View Location</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Chemistry Lab Manual</h4>
+                                    <p class="order-id">Order #1020 • Mar 7, 2025</p>
+                                </div>
+                                <span class="order-status completed">Completed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$35.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="user"></i>
+                                    <span>Emma Rodriguez</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="map-pin"></i>
+                                    <span>Engineering Building</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="calendar"></i>
+                                    <span>Picked up: Mar 8, 2025</span>
+                                </div>
+                            </div>
+                            <div class="order-actions">
+                                <button class="message-btn">
+                                    <i data-lucide="message-circle"></i>
+                                    <span>Message Seller</span>
+                                </button>
+                                <button class="track-btn">
+                                    <i data-lucide="star"></i>
+                                    <span>Leave Review</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h4>Study Lamp - LED</h4>
+                                    <p class="order-id">Order #1018 • Mar 5, 2025</p>
+                                </div>
+                                <span class="order-status completed">Completed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <i data-lucide="dollar-sign"></i>
+                                    <span>$15.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="user"></i>
+                                    <span>Alex Kim</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="map-pin"></i>
+                                    <span>Student Center</span>
+                                </div>
+                                <div class="order-detail">
+                                    <i data-lucide="calendar"></i>
+                                    <span>Picked up: Mar 6, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interested Items Tab -->
+            <div class="tab-content" id="interested">
+                <div class="orders-container" style="margin-bottom: 2rem;">
+                    <div class="orders-header">
+                        <h2>Items You're Interested In (4)</h2>
+                        <p style="font-size: 0.875rem; color: var(--muted-foreground);">Sellers will be notified of your interest</p>
+                    </div>
+                </div>
+
+                <div class="orders-list" style="background: white; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <h4>Calculus Textbook (11th Edition)</h4>
+                                <p class="order-id">Expressed interest 2 hours ago</p>
+                            </div>
+                            <span class="order-status pending">Waiting for Response</span>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-detail">
+                                <i data-lucide="dollar-sign"></i>
+                                <span>$45.00</span>
+                            </div>
+                            <div class="order-detail">
+                                <i data-lucide="user"></i>
+                                <span>Seller: Sarah Martinez</span>
+                            </div>
+                            <div class="order-detail">
+                                <i data-lucide="package"></i>
+                                <span>Good Condition</span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="message-btn">
+                                <i data-lucide="message-circle"></i>
+                                <span>Message Seller</span>
+                            </button>
+                            <button class="add-cart-btn" style="flex: none; padding: 0.5rem 1rem;">
+                                <i data-lucide="shopping-cart"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <h4>Microwave - Compact Size</h4>
+                                <p class="order-id">Expressed interest 1 day ago</p>
+                            </div>
+                            <span class="order-status confirmed">Seller Responded</span>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-detail">
+                                <i data-lucide="dollar-sign"></i>
+                                <span>$40.00</span>
+                            </div>
+                            <div class="order-detail">
+                                <i data-lucide="user"></i>
+                                <span>Seller: Lisa Wang</span>
+                            </div>
+                            <div class="order-detail">
+                                <i data-lucide="message-circle"></i>
+                                <span>1 new message</span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="message-btn" style="background: var(--primary); color: white;">
+                                <i data-lucide="message-circle"></i>
+                                <span>View Message</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <h4>Winter Coat - Medium</h4>
+                                <p class="order-id">Expressed interest 2 days ago</p>
+                            </div>
+                            <span class="order-status pending">Waiting for Response</span>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-detail">
+                                <i data-lucide="gift"></i>
+                                <span>Free (Donation)</span>
+                            </div>
+                            <div class="order-detail">
+                                <i data-lucide="user"></i>
+                                <span>Donor: Rachel Green</span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="message-btn">
+                                <i data-lucide="message-circle"></i>
+                                <span>Message Donor</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <h4>Guitar - Acoustic</h4>
+                                <p class="order-id">Expressed interest 3 days ago</p>
+                            </div>
+                            <span class="order-status cancelled">No Longer Available</span>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-detail">
+                                <i data-lucide="dollar-sign"></i>
+                                <span>$120.00</span>
+                            </div>
+                            <div class="order-detail">
+                                <i data-lucide="info"></i>
+                                <span>Item has been sold</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Tab -->
+            <div class="tab-content" id="messages">
+                <div class="messages-container">
+                    <!-- Conversations List -->
+                    <div class="conversations-list">
+                        <div class="conversation-item active">
+                            <div class="conversation-header">
+                                <div class="conversation-avatar">SM</div>
+                                <div class="conversation-details" style="flex: 1;">
+                                    <h4>Sarah Martinez</h4>
+                                    <p class="conversation-preview">Yes, it's still available! When...</p>
+                                </div>
+                                <span class="unread-badge">2</span>
+                            </div>
+                            <p class="conversation-time">2 hours ago</p>
+                        </div>
+
+                        <div class="conversation-item">
+                            <div class="conversation-header">
+                                <div class="conversation-avatar">LW</div>
+                                <div class="conversation-details" style="flex: 1;">
+                                    <h4>Lisa Wang</h4>
+                                    <p class="conversation-preview">The microwave is in great condition...</p>
+                                </div>
+                            </div>
+                            <p class="conversation-time">1 day ago</p>
+                        </div>
+
+                        <div class="conversation-item">
+                            <div class="conversation-header">
+                                <div class="conversation-avatar">MT</div>
+                                <div class="conversation-details" style="flex: 1;">
+                                    <h4>Mike Thompson</h4>
+                                    <p class="conversation-preview">Thanks for the purchase!</p>
+                                </div>
+                            </div>
+                            <p class="conversation-time">2 days ago</p>
+                        </div>
+
+                        <div class="conversation-item">
+                            <div class="conversation-header">
+                                <div class="conversation-avatar">ER</div>
+                                <div class="conversation-details" style="flex: 1;">
+                                    <h4>Emma Rodriguez</h4>
+                                    <p class="conversation-preview">See you at the library!</p>
+                                </div>
+                            </div>
+                            <p class="conversation-time">5 days ago</p>
+                        </div>
+
+                        <div class="conversation-item">
+                            <div class="conversation-header">
+                                <div class="conversation-avatar">AK</div>
+                                <div class="conversation-details" style="flex: 1;">
+                                    <h4>Alex Kim</h4>
+                                    <p class="conversation-preview">The lamp works perfectly, thanks!</p>
+                                </div>
+                            </div>
+                            <p class="conversation-time">1 week ago</p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Area -->
+                    <div class="chat-area">
+                        <div class="chat-header">
+                            <div class="conversation-avatar">SM</div>
+                            <div>
+                                <h4>Sarah Martinez</h4>
+                                <p style="font-size: 0.75rem; color: var(--muted-foreground);">Engineering Student</p>
+                            </div>
+                        </div>
+
+                        <div class="chat-messages">
+                            <div class="message received">
+                                <div class="message-bubble">
+                                    Hi! I saw you're interested in the Calculus textbook. It's still available!
+                                </div>
+                                <p class="message-time">2 hours ago</p>
+                            </div>
+
+                            <div class="message sent">
+                                <div class="message-bubble">
+                                    Great! Is it the 11th edition? And does it have any writing in it?
+                                </div>
+                                <p class="message-time">2 hours ago</p>
+                            </div>
+
+                            <div class="message received">
+                                <div class="message-bubble">
+                                    Yes, it's the 11th edition. There's some highlighting in the first few chapters, but otherwise it's in really good condition.
+                                </div>
+                                <p class="message-time">1 hour ago</p>
+                            </div>
+
+                            <div class="message sent">
+                                <div class="message-bubble">
+                                    Perfect! When would be a good time to pick it up?
+                                </div>
+                                <p class="message-time">1 hour ago</p>
+                            </div>
+
+                            <div class="message received">
+                                <div class="message-bubble">
+                                    I'm usually at the Student Center between classes. How about tomorrow at 2pm?
+                                </div>
+                                <p class="message-time">30 minutes ago</p>
+                            </div>
+
+                            <div class="message sent">
+                                <div class="message-bubble">
+                                    That works for me! See you tomorrow at 2pm at the Student Center.
+                                </div>
+                                <p class="message-time">Just now</p>
+                            </div>
+                        </div>
+
+                        <div class="chat-input">
+                            <input type="text" placeholder="Type a message...">
+                            <button>
+                                <i data-lucide="send"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings">
+                <div class="settings-container">
+                    <!-- Account Information -->
+                    <div class="settings-section">
+                        <h3>Account Information</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Name</h4>
+                                <p>John Davis</p>
+                            </div>
+                            <button class="edit-btn">Edit</button>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Email</h4>
+                                <p>john.d@university.edu</p>
+                            </div>
+                            <button class="edit-btn">Edit</button>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Student Status</h4>
+                                <p>Verified • Biology Major</p>
+                            </div>
+                            <span class="order-status completed">Verified</span>
+                        </div>
+                    </div>
+
+                    <!-- Buyer Preferences -->
+                    <div class="settings-section">
+                        <h3>Buyer Preferences</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Preferred Pickup Locations</h4>
+                                <p>Student Center, Main Library</p>
+                            </div>
+                            <button class="edit-btn">Edit</button>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Interests</h4>
+                                <p>Textbooks, Electronics, Furniture</p>
+                            </div>
+                            <button class="edit-btn">Edit</button>
+                        </div>
+                    </div>
+
+                    <!-- Payment Methods -->
+                    <div class="settings-section">
+                        <h3>Payment Methods</h3>
+                        <div class="settings-row" style="background: rgba(34, 197, 94, 0.1); padding: 1rem; border-radius: var(--radius); margin-bottom: 1rem;">
+                            <div class="settings-info" style="flex: 1;">
+                                <h4 style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i data-lucide="check-circle" style="width: 20px; height: 20px; color: #16a34a;"></i>
+                                    Payment Verification Status
+                                </h4>
+                                <p style="color: #16a34a; font-weight: 600;">Verified - Ready to checkout</p>
+                            </div>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Primary Payment</h4>
+                                <p>Venmo • @johndavis • Verified</p>
+                            </div>
+                            <button class="edit-btn">Edit</button>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Secondary Payment</h4>
+                                <p>Cash (In-person only)</p>
+                            </div>
+                            <span class="order-status completed" style="font-size: 0.75rem;">Active</span>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Add Payment Method</h4>
+                                <p>PayPal, Zelle, Apple Pay, Google Pay</p>
+                            </div>
+                            <button class="edit-btn">Add New</button>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="settings-section">
+                        <h3>Notifications</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>New Listings Alerts</h4>
+                                <p>Get notified about new items in your interests</p>
+                            </div>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" checked>
+                                <span>Enabled</span>
+                            </label>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Message Notifications</h4>
+                                <p>Receive email when sellers respond</p>
+                            </div>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" checked>
+                                <span>Enabled</span>
+                            </label>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Price Drop Alerts</h4>
+                                <p>Get notified when saved items go on sale</p>
+                            </div>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" checked>
+                                <span>Enabled</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Account Upgrade -->
+                    <div class="settings-section">
+                        <h3>Become a Seller</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Upgrade to Seller Account</h4>
+                                <p>Start selling your items on OwlExchange for free</p>
+                            </div>
+                            <button class="upgrade-btn" style="padding: 0.75rem 1.5rem;" onclick="window.location.href='seller-dashboard.html'">
+                                Upgrade Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Privacy & Security -->
+                    <div class="settings-section">
+                        <h3>Privacy & Security</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Password</h4>
+                                <p>Last changed 30 days ago</p>
+                            </div>
+                            <button class="edit-btn">Change Password</button>
+                        </div>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Profile Visibility</h4>
+                                <p>Control who can see your profile</p>
+                            </div>
+                            <button class="edit-btn">Manage</button>
+                        </div>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="settings-section">
+                        <h3>Danger Zone</h3>
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Delete Account</h4>
+                                <p>Permanently delete your account and all data</p>
+                            </div>
+                            <button class="remove-btn" style="padding: 0.75rem 1.5rem;">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>🦉 OwlExchange</h3>
+                    <p>
+                        The sustainable marketplace for students to buy, sell, exchange, and donate items within their campus community.
+                    </p>
+                    <div class="social-links">
+                        <button class="btn-icon">
+                            <i data-lucide="instagram"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i data-lucide="twitter"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i data-lucide="mail"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Safety Guidelines</a></li>
+                        <li><a href="#">Campus Pickup</a></li>
+                        <li><a href="#">Student Verification</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Report an Issue</a></li>
+                        <li><a href="#">Community Guidelines</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Stay Connected</h4>
+                    <p>
+                        Get notified about new listings and sustainability tips.
+                    </p>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Student email" class="newsletter-input">
+                        <button class="btn-primary newsletter-btn">Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 OwlExchange. Building sustainable campus communities.</p>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Accessibility</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Buyer Dashboard JavaScript -->
+    <script src="buyer-dashboard.html"></script>
+</body>
+</html>

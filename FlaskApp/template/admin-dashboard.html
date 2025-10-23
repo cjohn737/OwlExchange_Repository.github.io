@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - OwlExchange</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dash.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="menu-toggle" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <h1 class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">🦉 OwlExchange</a></h1>
+                </div>
+
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Browse</a>
+                    <a href="sell.html" class="nav-link">Sell</a>
+                    <a href="exchange.html" class="nav-link">Exchange</a>
+                    <a href="donate.html" class="nav-link">Donate</a>
+                    <a href="about.html" class="nav-link">About</a>
+                </nav>
+
+                <div class="search-container">
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" placeholder="Search items..." class="search-input">
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn-icon search-mobile">
+                        <i data-lucide="search"></i>
+                    </button>
+                    <button class="btn-icon">
+                        <i data-lucide="bell"></i>
+                    </button>
+                    <button class="btn-icon">
+                        <i data-lucide="user"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Admin Dashboard</h1>
+                <p>Manage users, moderate content, and monitor platform activity</p>
+                <div class="admin-name">
+                    <i data-lucide="shield-check"></i>
+                    <span>Logged in as: <strong>Admin User</strong></span>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="dashboard-nav">
+                <button class="tab-btn active" data-tab="overview">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Overview</span>
+                </button>
+                <button class="tab-btn" data-tab="users">
+                    <i data-lucide="users"></i>
+                    <span>User Management</span>
+                </button>
+                <button class="tab-btn" data-tab="items">
+                    <i data-lucide="package"></i>
+                    <span>Item Moderation</span>
+                </button>
+                <button class="tab-btn" data-tab="complaints">
+                    <i data-lucide="alert-circle"></i>
+                    <span>Complaints</span>
+                </button>
+                <button class="tab-btn" data-tab="logs">
+                    <i data-lucide="file-text"></i>
+                    <span>Activity Logs</span>
+                </button>
+            </nav>
+
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overview">
+                <!-- Metrics Cards -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon blue">
+                                <i data-lucide="users"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Total Users</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">2,847</div>
+                        <div class="metric-change positive">
+                            <i data-lucide="trending-up"></i>
+                            <span>+12% from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon green">
+                                <i data-lucide="package"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Active Listings</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">1,234</div>
+                        <div class="metric-change positive">
+                            <i data-lucide="trending-up"></i>
+                            <span>+8% from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon purple">
+                                <i data-lucide="repeat"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Completed Exchanges</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">567</div>
+                        <div class="metric-change positive">
+                            <i data-lucide="trending-up"></i>
+                            <span>+24% from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon orange">
+                                <i data-lucide="alert-circle"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3>Pending Reviews</h3>
+                            </div>
+                        </div>
+                        <div class="metric-value">42</div>
+                        <div class="metric-change negative">
+                            <i data-lucide="trending-down"></i>
+                            <span>Requires attention</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>User Growth</h3>
+                            <p>New user registrations over time</p>
+                        </div>
+                        <div class="chart-placeholder">
+                            <i data-lucide="trending-up" style="width: 48px; height: 48px;"></i>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Popular Categories</h3>
+                            <p>Most active item categories</p>
+                        </div>
+                        <div class="chart-placeholder">
+                            <i data-lucide="pie-chart" style="width: 48px; height: 48px;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h2>Recent Platform Activity</h2>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Activity</th>
+                                <th>User</th>
+                                <th>Type</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>New listing created: "Calculus Textbook"</td>
+                                <td>Sarah M.</td>
+                                <td><span class="status-badge active">Listing</span></td>
+                                <td>2 minutes ago</td>
+                            </tr>
+                            <tr>
+                                <td>Exchange completed</td>
+                                <td>Mike T. ↔ Jessica L.</td>
+                                <td><span class="status-badge approved">Exchange</span></td>
+                                <td>15 minutes ago</td>
+                            </tr>
+                            <tr>
+                                <td>New user registered</td>
+                                <td>Alex K.</td>
+                                <td><span class="status-badge active">Registration</span></td>
+                                <td>1 hour ago</td>
+                            </tr>
+                            <tr>
+                                <td>Donation completed: "Winter Coat"</td>
+                                <td>Emma R.</td>
+                                <td><span class="status-badge approved">Donation</span></td>
+                                <td>2 hours ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- User Management Tab -->
+            <div class="tab-content" id="users">
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h2>User Management</h2>
+                        <div class="table-actions">
+                            <div class="search-filter">
+                                <i data-lucide="search"></i>
+                                <input type="text" placeholder="Search users...">
+                            </div>
+                            <select class="filter-select">
+                                <option>All Users</option>
+                                <option>Active</option>
+                                <option>Inactive</option>
+                                <option>New (Last 7 days)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Listings</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">SM</div>
+                                        <div class="user-details">
+                                            <h4>Sarah Martinez</h4>
+                                            <p>Engineering Student</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>sarah.m@university.edu</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td>Jan 15, 2025</td>
+                                <td>12</td>
+                                <td>
+                                    <div class="table-actions-btns">
+                                        <button class="action-btn" title="View Profile">
+                                            <i data-lucide="eye"></i>
+                                        </button>
+                                        <button class="action-btn" title="Reset Password">
+                                            <i data-lucide="key"></i>
+                                        </button>
+                                        <button class="action-btn" title="Deactivate">
+                                            <i data-lucide="user-x"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">MT</div>
+                                        <div class="user-details">
+                                            <h4>Mike Thompson</h4>
+                                            <p>Business Major</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>mike.t@university.edu</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td>Feb 3, 2025</td>
+                                <td>8</td>
+                                <td>
+                                    <div class="table-actions-btns">
+                                        <button class="action-btn" title="View Profile">
+                                            <i data-lucide="eye"></i>
+                                        </button>
+                                        <button class="action-btn" title="Reset Password">
+                                            <i data-lucide="key"></i>
+                                        </button>
+                                        <button class="action-btn" title="Deactivate">
+                                            <i data-lucide="user-x"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">JL</div>
+                                        <div class="user-details">
+                                            <h4>Jessica Lee</h4>
+                                            <p>Art Student</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>jessica.l@university.edu</td>
+                                <td><span class="status-badge inactive">Inactive</span></td>
+                                <td>Dec 12, 2024</td>
+                                <td>3</td>
+                                <td>
+                                    <div class="table-actions-btns">
+                                        <button class="action-btn" title="View Profile">
+                                            <i data-lucide="eye"></i>
+                                        </button>
+                                        <button class="action-btn" title="Reset Password">
+                                            <i data-lucide="key"></i>
+                                        </button>
+                                        <button class="action-btn" title="Activate">
+                                            <i data-lucide="user-check"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">AK</div>
+                                        <div class="user-details">
+                                            <h4>Alex Kim</h4>
+                                            <p>Computer Science</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>alex.k@university.edu</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td>Mar 1, 2025</td>
+                                <td>15</td>
+                                <td>
+                                    <div class="table-actions-btns">
+                                        <button class="action-btn" title="View Profile">
+                                            <i data-lucide="eye"></i>
+                                        </button>
+                                        <button class="action-btn" title="Reset Password">
+                                            <i data-lucide="key"></i>
+                                        </button>
+                                        <button class="action-btn" title="Deactivate">
+                                            <i data-lucide="user-x"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">ER</div>
+                                        <div class="user-details">
+                                            <h4>Emma Rodriguez</h4>
+                                            <p>Biology Major</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>emma.r@university.edu</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td>Jan 28, 2025</td>
+                                <td>6</td>
+                                <td>
+                                    <div class="table-actions-btns">
+                                        <button class="action-btn" title="View Profile">
+                                            <i data-lucide="eye"></i>
+                                        </button>
+                                        <button class="action-btn" title="Reset Password">
+                                            <i data-lucide="key"></i>
+                                        </button>
+                                        <button class="action-btn" title="Deactivate">
+                                            <i data-lucide="user-x"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <button disabled>
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <button class="active">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button>...</button>
+                        <button>28</button>
+                        <button>
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item Moderation Tab -->
+            <div class="tab-content" id="items">
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h2>Item Moderation</h2>
+                        <div class="table-actions">
+                            <div class="search-filter">
+                                <i data-lucide="search"></i>
+                                <input type="text" placeholder="Search items...">
+                            </div>
+                            <select class="filter-select">
+                                <option>All Items</option>
+                                <option>Pending Review</option>
+                                <option>Approved</option>
+                                <option>Rejected</option>
+                                <option>Active</option>
+                                <option>Sold/Exchanged</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Seller</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="item-preview">
+                                        <img src="https://images.unsplash.com/photo-1755620500895-b693799658ee?w=200" alt="Calculus Textbook" class="item-thumbnail">
+                                        <div class="item-details">
+                                            <h4>Calculus Textbook (11th Ed.)</h4>
+                                            <p>Good condition • Posted 2 hours ago</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Sarah Martinez</td>
+                                <td>Textbooks</td>
+                                <td>$45.00</td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                                <td>
+                                    <div class="table-actions-btns">
+                                        <button class="action-btn" title="Approve">
+                                            <i data-lucide="check"></i>
+                                        </button>
+                                        <button class="action-btn danger" title="Reject">
+                                            <i data-lucide="x"></i>
+                                        </button>
+                                        <button class="action-btn" title="View Details">
+                                            <i data-lucide="eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="item-preview">
+                                        <img src="https://images.unsplash.com/photo-1694151569569-8288e3118519?w=200" alt="Desk Chair" class="item-thumbnail">
+                                        <div class="item-details">
+                                            <h4>Dorm Desk Chair - Blue</h4>
+                                            <p>Like new • Posted 1 day ago</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Mike Thompson</td>
+                                <td>Furniture</td>
+                                <td>$30.00</td>
+                                <td><span class="status-badge approved">Active</span></td>
+                                <td>
+                                    <div class="table-actions-btns">
+                                        <button class="action-btn" title="View Details">
+                                            <i data-lucide="eye"></i>
+                                        </button>
+                                        <button class="action-btn danger" title="Remove">
+                                            <i data-lucide="trash-2"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="item-preview">
+                                        <img src="https://images.unsplash.com/photo-1585155770095-17ba53a46a27?w=200" alt="Study Bundle" class="item-thumbnail">
+                                        <div class="item-details">
+                                            <h4>Study Supplies Bundle</h4>
+                                            <p>New • Posted 3 hours ago</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Jessica Lee</td>
+                                <td>School Supplies</td>
+                                <td>$15.00</td>
+                                <td><span class="status-badge approved">Active</span></td>
+                                <td>
+                                    <div class="table-actions-btns">
+                                        <button class="action-btn" title="View Details">
+                                            <i data-lucide="eye"></i>
+                                        </button>
+                                        <button class="action-btn danger" title="Remove">
+                                            <i data-lucide="trash-2"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="item-preview">
+                                        <img src="https://images.unsplash.com/photo-1716471081169-cb8528a395d3?w=200" alt="Laptop Stand" class="item-thumbnail">
+                                        <div class="item-details">
+                                            <h4>Laptop Stand - Aluminum</h4>
+                                            <p>Like new • Posted 5 hours ago</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Alex Kim</td>
+                                <td>Electronics</td>
+                                <td>$25.00</td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                                <td>
+                                    <div class="table-actions-btns">
+                                        <button class="action-btn" title="Approve">
+                                            <i data-lucide="check"></i>
+                                        </button>
+                                        <button class="action-btn danger" title="Reject">
+                                            <i data-lucide="x"></i>
+                                        </button>
+                                        <button class="action-btn" title="View Details">
+                                            <i data-lucide="eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <button disabled>
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <button class="active">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button>...</button>
+                        <button>15</button>
+                        <button>
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complaints Tab -->
+            <div class="tab-content" id="complaints">
+                <div class="complaints-grid">
+                    <div class="complaint-card">
+                        <div class="complaint-header">
+                            <div class="complaint-user">
+                                <div class="user-avatar">JD</div>
+                                <div class="user-details">
+                                    <h4>John Davis</h4>
+                                    <div class="complaint-id">Complaint #1847</div>
+                                </div>
+                            </div>
+                            <div class="complaint-priority high">
+                                <i data-lucide="alert-triangle"></i>
+                                <span>High Priority</span>
+                            </div>
+                        </div>
+                        <h3 class="complaint-subject">Item not as described</h3>
+                        <p class="complaint-message">
+                            I purchased a "Like New" laptop from a seller, but when I received it, the condition was much worse than advertised. There are scratches on the screen and the battery doesn't hold a charge properly. I've tried to contact the seller but haven't received a response.
+                        </p>
+                        <div class="complaint-meta">
+                            <div class="meta-item">
+                                <i data-lucide="calendar"></i>
+                                <span>Submitted: Mar 10, 2025</span>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="package"></i>
+                                <span>Item ID: #4582</span>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="user"></i>
+                                <span>Seller: Mark Johnson</span>
+                            </div>
+                        </div>
+                        <div class="complaint-actions">
+                            <button class="respond-btn">
+                                <i data-lucide="message-circle"></i>
+                                Respond
+                            </button>
+                            <button class="resolve-btn">
+                                <i data-lucide="check-circle"></i>
+                                Mark Resolved
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="complaint-card">
+                        <div class="complaint-header">
+                            <div class="complaint-user">
+                                <div class="user-avatar">LW</div>
+                                <div class="user-details">
+                                    <h4>Lisa Wilson</h4>
+                                    <div class="complaint-id">Complaint #1846</div>
+                                </div>
+                            </div>
+                            <div class="complaint-priority medium">
+                                <i data-lucide="alert-circle"></i>
+                                <span>Medium Priority</span>
+                            </div>
+                        </div>
+                        <h3 class="complaint-subject">Inappropriate listing content</h3>
+                        <p class="complaint-message">
+                            There's a listing that contains inappropriate language in the description. The item itself seems fine, but the description includes offensive content that violates community guidelines.
+                        </p>
+                        <div class="complaint-meta">
+                            <div class="meta-item">
+                                <i data-lucide="calendar"></i>
+                                <span>Submitted: Mar 11, 2025</span>
+                            </div>
+                            <div class="meta-item">
+                                <i data-lucide="package"></i>
+                                <span>Item ID: #4601</span>
+                            </div>
+                        </div>
+                        <div class="complaint-actions">
+                            <button class="respond-btn">
+                                <i data-lucide="message-circle"></i>
+                                Respond
+                            </button>
+                            <button class="resolve-btn">
+                                <i data-lucide="check-circle"></i>
+                                Mark Resolved
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="complaint-card">
+                        <div class="complaint-header">
+                            <div class="complaint-user">
+                                <div class="user-avatar">RB</div>
+                                <div class="user-details">
+                                    <h4>Ryan Brown</h4>
+                                    <div class="complaint-id">Complaint #1845</div>
+                                </div>
+                            </div>
+                            <div class="complaint-priority low">
+                                <i data-lucide="info"></i>
+                                <span>Low Priority</span>
+                            </div>
+                        </div>
+                        <h3 class="complaint-subject">Question about platform fees</h3>
+                        <p class="complaint-message">
+                            I'm confused about how platform fees are calculated. I expected a different fee amount based on the transaction. Could someone clarify the fee structure?
+                        </p>
+                        <div class="complaint-meta">
+                            <div class="meta-item">
+                                <i data-lucide="calendar"></i>
+                                <span>Submitted: Mar 12, 2025</span>
+                            </div>
+                        </div>
+                        <div class="complaint-actions">
+                            <button class="respond-btn">
+                                <i data-lucide="message-circle"></i>
+                                Respond
+                            </button>
+                            <button class="resolve-btn">
+                                <i data-lucide="check-circle"></i>
+                                Mark Resolved
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <button disabled>
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Activity Logs Tab -->
+            <div class="tab-content" id="logs">
+                <div class="activity-log">
+                    <div class="log-entry">
+                        <div class="log-header">
+                            <div class="log-admin">
+                                <div class="log-avatar">AM</div>
+                                <div>
+                                    <div class="log-admin-name">Admin User</div>
+                                    <div class="log-timestamp">March 13, 2025 at 2:45 PM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="log-description">
+                            Approved item listing #4582 "Calculus Textbook (11th Ed.)" by Sarah Martinez. Item met all quality standards and community guidelines.
+                        </div>
+                    </div>
+
+                    <div class="log-entry">
+                        <div class="log-header">
+                            <div class="log-admin">
+                                <div class="log-avatar">AM</div>
+                                <div>
+                                    <div class="log-admin-name">Admin User</div>
+                                    <div class="log-timestamp">March 13, 2025 at 2:30 PM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="log-description">
+                            Reset password for user Mike Thompson (mike.t@university.edu). Sent password reset email with requirement to change password on next login.
+                        </div>
+                    </div>
+
+                    <div class="log-entry">
+                        <div class="log-header">
+                            <div class="log-admin">
+                                <div class="log-avatar">SA</div>
+                                <div>
+                                    <div class="log-admin-name">Super Admin</div>
+                                    <div class="log-timestamp">March 13, 2025 at 1:15 PM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="log-description">
+                            Deactivated account for user Jessica Lee (jessica.l@university.edu) due to violation of community guidelines. User notified via email.
+                        </div>
+                    </div>
+
+                    <div class="log-entry">
+                        <div class="log-header">
+                            <div class="log-admin">
+                                <div class="log-avatar">AM</div>
+                                <div>
+                                    <div class="log-admin-name">Admin User</div>
+                                    <div class="log-timestamp">March 13, 2025 at 11:20 AM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="log-description">
+                            Rejected item listing #4601 "Study Desk" by Alex Kim. Reason: Inappropriate content in description. User notified and advised to resubmit with corrected description.
+                        </div>
+                    </div>
+
+                    <div class="log-entry">
+                        <div class="log-header">
+                            <div class="log-admin">
+                                <div class="log-avatar">AM</div>
+                                <div>
+                                    <div class="log-admin-name">Admin User</div>
+                                    <div class="log-timestamp">March 13, 2025 at 10:05 AM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="log-description">
+                            Resolved complaint #1847 from John Davis regarding item quality. Issued partial refund and contacted seller Mark Johnson for policy review.
+                        </div>
+                    </div>
+
+                    <div class="log-entry">
+                        <div class="log-header">
+                            <div class="log-admin">
+                                <div class="log-avatar">SA</div>
+                                <div>
+                                    <div class="log-admin-name">Super Admin</div>
+                                    <div class="log-timestamp">March 12, 2025 at 4:50 PM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="log-description">
+                            Activated account for user Emma Rodriguez (emma.r@university.edu) after successful verification of student status.
+                        </div>
+                    </div>
+
+                    <div class="log-entry">
+                        <div class="log-header">
+                            <div class="log-admin">
+                                <div class="log-avatar">AM</div>
+                                <div>
+                                    <div class="log-admin-name">Admin User</div>
+                                    <div class="log-timestamp">March 12, 2025 at 3:30 PM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="log-description">
+                            Approved item listing #4599 "Mini Coffee Maker" by Emma Rodriguez. Item approved and made visible on marketplace.
+                        </div>
+                    </div>
+
+                    <div class="log-entry">
+                        <div class="log-header">
+                            <div class="log-admin">
+                                <div class="log-avatar">AM</div>
+                                <div>
+                                    <div class="log-admin-name">Admin User</div>
+                                    <div class="log-timestamp">March 12, 2025 at 2:15 PM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="log-description">
+                            Reset password for user Sarah Martinez (sarah.m@university.edu). Password reset completed successfully with forced password change on next login enabled.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <button disabled>
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>...</button>
+                    <button>12</button>
+                    <button>
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>🦉 OwlExchange</h3>
+                    <p>
+                        The sustainable marketplace for students to buy, sell, exchange, and donate items within their campus community.
+                    </p>
+                    <div class="social-links">
+                        <button class="btn-icon">
+                            <i data-lucide="instagram"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i data-lucide="twitter"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i data-lucide="mail"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Safety Guidelines</a></li>
+                        <li><a href="#">Campus Pickup</a></li>
+                        <li><a href="#">Student Verification</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Report an Issue</a></li>
+                        <li><a href="#">Community Guidelines</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Stay Connected</h4>
+                    <p>
+                        Get notified about new listings and sustainability tips.
+                    </p>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Student email" class="newsletter-input">
+                        <button class="btn-primary newsletter-btn">Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 OwlExchange. Building sustainable campus communities.</p>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Accessibility</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab Navigation
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                document.getElementById(tabName).classList.add('active');
+                
+                // Re-initialize Lucide icons for the new content
+                lucide.createIcons();
+            });
+        });
+
+        // Mock function for user actions
+        function viewProfile(userId) {
+            alert(`View profile for user ${userId}`);
+        }
+
+        function resetPassword(userId) {
+            if (confirm('Send password reset email to this user?')) {
+                alert(`Password reset email sent. User will be required to change password on next login.`);
+            }
+        }
+
+        function toggleUserStatus(userId, currentStatus) {
+            const action = currentStatus === 'active' ? 'deactivate' : 'activate';
+            if (confirm(`Are you sure you want to ${action} this user?`)) {
+                alert(`User ${action}d successfully`);
+            }
+        }
+
+        // Mock function for item moderation
+        function approveItem(itemId) {
+            if (confirm('Approve this item listing?')) {
+                alert(`Item ${itemId} approved and published to marketplace`);
+            }
+        }
+
+        function rejectItem(itemId) {
+            const reason = prompt('Reason for rejection:');
+            if (reason) {
+                alert(`Item ${itemId} rejected. Seller notified with reason.`);
+            }
+        }
+
+        function viewItem(itemId) {
+            alert(`View details for item ${itemId}`);
+        }
+
+        // Mock function for complaint handling
+        function respondToComplaint(complaintId) {
+            alert(`Open response form for complaint ${complaintId}`);
+        }
+
+        function resolveComplaint(complaintId) {
+            if (confirm('Mark this complaint as resolved?')) {
+                alert(`Complaint ${complaintId} marked as resolved`);
+            }
+        }
+    </script>
+</body>
+</html>
