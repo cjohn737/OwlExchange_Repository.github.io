@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In / Sign Up - OwlExchange</title>
+    <link rel="stylesheet" href="globals.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        /* Specific styles for auth page */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-hero {
+            background: linear-gradient(135deg, #f0fdf4, #eff6ff, #faf5ff);
+            padding: 8rem 0 4rem;
+            text-align: center;
+        }
+
+        .auth-form-section {
+            flex: 1;
+            padding: 4rem 0 8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 3rem;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--muted-foreground);
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .auth-form {
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--foreground);
+        }
+
+        .form-input {
+            width: 100%;
+            height: 3rem;
+            padding: 0 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: var(--input-background);
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(3, 2, 19, 0.1);
+        }
+
+        .password-input-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--muted-foreground);
+            padding: 0.25rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .checkbox-label {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .checkbox-label a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .checkbox-label a:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 1.5rem;
+        }
+
+        .forgot-password a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-submit-btn {
+            width: 100%;
+            height: 3rem;
+            background: linear-gradient(135deg, #22c55e, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .auth-divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+        }
+
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border);
+            z-index: 1;
+        }
+
+        .auth-divider span {
+            background: var(--card);
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .campus-sso-btn {
+            width: 100%;
+            height: 3rem;
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 1.5rem;
+        }
+
+        .campus-sso-btn:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .auth-switch {
+            text-align: center;
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+        }
+
+        .auth-switch a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-form-content {
+            display: none;
+        }
+
+        .auth-form-content.active {
+            display: block;
+        }
+
+        /* Security & Benefits Sections */
+        .security-section, .benefits-section {
+            padding: 4rem 0;
+        }
+
+        .security-section {
+            background: var(--muted);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            width: 3rem;
+            height: 3rem;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #22c55e, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+        }
+
+        /* Form Row for Side-by-Side Fields */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Account Type Selection */
+        .account-type-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .account-type-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .account-type-option {
+            position: relative;
+        }
+
+        .account-type-radio {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .account-type-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            background: var(--card);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+        }
+
+        .account-type-card:hover {
+            border-color: var(--primary);
+            background: var(--accent);
+        }
+
+        .account-type-radio:checked + .account-type-card {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
+            box-shadow: 0 0 0 3px rgba(3, 2, 19, 0.1);
+        }
+
+        .account-type-icon {
+            width: 2rem;
+            height: 2rem;
+            margin-bottom: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .buyer-icon {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .seller-icon {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .account-type-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: var(--foreground);
+        }
+
+        .account-type-description {
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+            line-height: 1.3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .auth-hero {
+                padding: 4rem 0 2rem;
+            }
+
+            .auth-card {
+                padding: 2rem;
+                margin: 0 1rem;
+            }
+
+            .auth-form-section {
+                padding: 2rem 0 4rem;
+            }
+
+            .security-section, .benefits-section {
+                padding: 3rem 0;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .account-type-options {
+                grid-template-columns: 1fr;
+            }
+
+            .account-type-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="auth-container">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="menu-toggle" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <h1 class="logo"><a href="../index.html" style="text-decoration: none; color: inherit;">🦉 OwlExchange</a></h1>
+                </div>
+
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Browse</a>
+                    <a href="Sell.html" class="nav-link">Sell</a>
+                    <a href="Exchange.html" class="nav-link">Exchange</a>
+                    <a href="Donate.html" class="nav-link">Donate</a>
+                    <a href="About.html" class="nav-link">About</a>
+                </nav>
+
+                <div class="search-container">
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" placeholder="Search items..." class="search-input">
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn-icon search-mobile">
+                        <i data-lucide="search"></i>
+                    </button>
+                    <button class="btn-primary list-item-btn">
+                        <i data-lucide="plus"></i>
+                        <span>List Item</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <!-- Hero Section -->
+    <section class="auth-hero">
+        <div class="container">
+            <div class="badge">🔐 Welcome to OwlExchange</div>
+            <h1>JOIN YOUR CAMPUS COMMUNITY</h1>
+            <p style="font-size: 1.25rem; color: var(--muted-foreground); margin-top: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Sign in to continue buying, selling, exchanging, and donating with fellow students. New here? Create your account to get started.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Form Section -->
+    <section class="auth-form-section">
+        <div class="container">
+            <div class="auth-card">
+                <!-- Tab Navigation -->
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="signin">Sign In</button>
+                    <button class="auth-tab" data-tab="signup">Sign Up</button>
+                </div>
+
+                <!-- Sign In Form -->
+                <div class="auth-form-content active" id="signin-form">
+                    <form class="auth-form">
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" placeholder="your.email@student.edu" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" class="form-input" placeholder="••••••••••••••••••••••" required>
+                                <button type="button" class="password-toggle">
+                                    <i data-lucide="eye-off"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" class="checkbox" id="remember-me">
+                            <label for="remember-me" class="checkbox-label">Remember me</label>
+                        </div>
+
+                        <div class="forgot-password">
+                            <a href="#forgot">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="auth-submit-btn">
+                            Sign In
+                        </button>
+                    </form>
+
+                    <div class="auth-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <button class="campus-sso-btn">
+                        <span>🎓</span>
+                        Sign in with Campus ID
+                    </button>
+
+                    <div class="auth-switch">
+                        New to OwlExchange? <a href="#signup" onclick="switchTab('signup')">Create account</a>
+                    </div>
+                </div>
+
+                <!-- Sign Up Form -->
+                <div class="auth-form-content" id="signup-form">
+                    <form class="auth-form">
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" placeholder="your.email@student.edu" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-input" placeholder="Enter your first name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-input" placeholder="Enter your last name" required>
+                            </div>
+                        </div>
+
+                        <div class="account-type-group">
+                            <label class="form-label">I want to sign up as:</label>
+                            <div class="account-type-options">
+                                <div class="account-type-option">
+                                    <input type="radio" id="account-buyer" name="accountType" value="buyer" class="account-type-radio" required>
+                                    <label for="account-buyer" class="account-type-card">
+                                        <div class="account-type-icon buyer-icon">
+                                            <i data-lucide="shopping-bag"></i>
+                                        </div>
+                                        <div class="account-type-title">Buyer</div>
+                                        <div class="account-type-description">Find great deals on textbooks, dorm items, and more</div>
+                                    </label>
+                                </div>
+                                <div class="account-type-option">
+                                    <input type="radio" id="account-seller" name="accountType" value="seller" class="account-type-radio" required>
+                                    <label for="account-seller" class="account-type-card">
+                                        <div class="account-type-icon seller-icon">
+                                            <i data-lucide="store"></i>
+                                        </div>
+                                        <div class="account-type-title">Seller</div>
+                                        <div class="account-type-description">List items to sell, exchange, or donate to fellow students</div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" class="form-input" placeholder="••••••••••••••••••••••" required>
+                                <button type="button" class="password-toggle">
+                                    <i data-lucide="eye-off"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Confirm Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" class="form-input" placeholder="••••••••••••••••••••••" required>
+                                <button type="button" class="password-toggle">
+                                    <i data-lucide="eye-off"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" class="checkbox" id="agree-terms" required>
+                            <label for="agree-terms" class="checkbox-label">I agree to <a href="#terms">Terms</a> & <a href="#privacy">Privacy Policy</a></label>
+                        </div>
+
+                        <button type="submit" class="auth-submit-btn">
+                            Create Account
+                        </button>
+                    </form>
+
+                    <div class="auth-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <button class="campus-sso-btn">
+                        <span>🎓</span>
+                        Sign up with Campus ID
+                    </button>
+
+                    <div class="auth-switch">
+                        Already have an account? <a href="#signin" onclick="switchTab('signin')">Sign in here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security & Trust Section -->
+    <section class="security-section">
+        <div class="container">
+            <div class="text-center">
+                <h2>Security & Trust</h2>
+                <p style="color: var(--muted-foreground); margin-top: 1rem;">Your safety and privacy are our top priorities</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="lock" style="width: 1.5rem; height: 1.5rem;"></i>
+                    </div>
+                    <h3 class="feature-title">Secure Authentication</h3>
+                    <p class="feature-description">Bank-level encryption protects your personal data and account information</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="graduation-cap" style="width: 1.5rem; height: 1.5rem;"></i>
+                    </div>
+                    <h3 class="feature-title">Student Only</h3>
+                    <p class="feature-description">Verified .edu email addresses required for a trusted campus community</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="zap" style="width: 1.5rem; height: 1.5rem;"></i>
+                    </div>
+                    <h3 class="feature-title">Quick Setup</h3>
+                    <p class="feature-description">Get started in under 2 minutes and begin connecting with your campus</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Preview Section -->
+    <section class="benefits-section">
+        <div class="container">
+            <div class="text-center">
+                <h2>Why Join OwlExchange?</h2>
+                <p style="color: var(--muted-foreground); margin-top: 1rem;">Connect, save, and make a difference in your campus community</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="dollar-sign" style="width: 1.5rem; height: 1.5rem;"></i>
+                    </div>
+                    <h3 class="feature-title">Save Money</h3>
+                    <p class="feature-description">Find affordable textbooks, supplies, and essentials from fellow students</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="refresh-cw" style="width: 1.5rem; height: 1.5rem;"></i>
+                    </div>
+                    <h3 class="feature-title">Trade Smart</h3>
+                    <p class="feature-description">Exchange items you don't need for things you do in fair, sustainable trades</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="heart" style="width: 1.5rem; height: 1.5rem;"></i>
+                    </div>
+                    <h3 class="feature-title">Give Back</h3>
+                    <p class="feature-description">Help fellow students through donations and build a supportive community</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="users" style="width: 1.5rem; height: 1.5rem;"></i>
+                    </div>
+                    <h3 class="feature-title">Connect</h3>
+                    <p class="feature-description">Meet like-minded students and build lasting friendships on campus</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🦉 OwlExchange</h3>
+                    <p>Building sustainable campus communities through peer-to-peer exchange.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i data-lucide="instagram"></i></a>
+                        <a href="#" class="social-link"><i data-lucide="twitter"></i></a>
+                        <a href="#" class="social-link"><i data-lucide="facebook"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Marketplace</h4>
+                    <a href="../index.html" class="footer-link">Browse Items</a>
+                    <a href="sell.html" class="footer-link">Sell Items</a>
+                    <a href="exchange.html" class="footer-link">Exchange Items</a>
+                    <a href="donate.html" class="footer-link">Donate Items</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <a href="about.html" class="footer-link">About Us</a>
+                    <a href="#" class="footer-link">Success Stories</a>
+                    <a href="#" class="footer-link">Campus Partners</a>
+                    <a href="#" class="footer-link">Impact Report</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <a href="#" class="footer-link">Help Center</a>
+                    <a href="#" class="footer-link">Safety Guidelines</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 OwlExchange. Making campus communities more sustainable.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Remove active class from all tabs and content
+            document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.auth-form-content').forEach(content => content.classList.remove('active'));
+
+            // Add active class to selected tab and content
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(`${tabName}-form`).classList.add('active');
+        }
+
+        // Tab click handlers
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+                switchTab(tabName);
+            });
+        });
+
+        // Password visibility toggle
+        document.querySelectorAll('.password-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                const icon = this.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.setAttribute('data-lucide', 'eye');
+                } else {
+                    input.type = 'password';
+                    icon.setAttribute('data-lucide', 'eye-off');
+                }
+                
+                // Reinitialize icons
+                lucide.createIcons();
+            });
+        });
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+        });
+
+        // Form validation and submission
+        document.querySelectorAll('.auth-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form type
+                const isSignUp = this.closest('#signup-form') !== null;
+                
+                let userRole = 'buyer'; // Default role
+                let firstName = 'Student';
+                let lastName = 'User';
+                let email = '';
+                
+                if (isSignUp) {
+                    // Check first name and last name
+                    firstName = this.querySelector('input[type="text"]:nth-of-type(1)').value.trim();
+                    lastName = this.querySelector('input[type="text"]:nth-of-type(2)').value.trim();
+                    
+                    if (!firstName) {
+                        alert('Please enter your first name');
+                        return;
+                    }
+                    
+                    if (!lastName) {
+                        alert('Please enter your last name');
+                        return;
+                    }
+                    
+                    // Check account type selection
+                    const accountType = this.querySelector('input[name="accountType"]:checked');
+                    if (!accountType) {
+                        alert('Please select whether you want to sign up as a buyer or seller');
+                        return;
+                    }
+                    
+                    // Validate password confirmation
+                    const password = this.querySelector('input[type="password"]:nth-of-type(1)').value;
+                    const confirmPassword = this.querySelector('input[type="password"]:nth-of-type(2)').value;
+                    
+                    if (password !== confirmPassword) {
+                        alert('Passwords do not match!');
+                        return;
+                    }
+                    
+                    // Check terms agreement
+                    const agreeTerms = this.querySelector('#agree-terms').checked;
+                    if (!agreeTerms) {
+                        alert('Please agree to the Terms and Privacy Policy');
+                        return;
+                    }
+                    
+                    // Get selected account type
+                    userRole = accountType.value;
+                    email = this.querySelector('input[type="email"]').value;
+                    
+                    // Set session storage for new user
+                    sessionStorage.setItem('userLoggedIn', 'true');
+                    sessionStorage.setItem('userRole', userRole);
+                    sessionStorage.setItem('userFirstName', firstName);
+                    sessionStorage.setItem('userLastName', lastName);
+                    sessionStorage.setItem('userEmail', email);
+                    sessionStorage.setItem('userId', Date.now().toString()); // Generate temporary user ID
+                    sessionStorage.setItem('paymentVerified', 'false'); // New users need to verify payment
+                    
+                    const accountTypeText = userRole === 'buyer' ? 'buyer' : 'seller';
+                    alert(`Account created successfully! Welcome to OwlExchange, ${firstName}! You're all set up as a ${accountTypeText}.`);
+                    
+                    // Redirect based on account type
+                    if (userRole === 'seller') {
+                        window.location.href = 'seller-dashboard.html';
+                    } else {
+                        window.location.href = 'buyer-dashboard.html';
+                    }
+                } else {
+                    // Sign In
+                    email = this.querySelector('input[type="email"]').value;
+                    const rememberMe = this.querySelector('#remember-me').checked;
+                    
+                    // For demo purposes, set default user data
+                    // In production, this would come from backend authentication
+                    sessionStorage.setItem('userLoggedIn', 'true');
+                    sessionStorage.setItem('userRole', 'buyer'); // Default to buyer for existing users
+                    sessionStorage.setItem('userFirstName', 'John');
+                    sessionStorage.setItem('userLastName', 'Davis');
+                    sessionStorage.setItem('userEmail', email);
+                    sessionStorage.setItem('userId', '1'); // Mock user ID
+                    sessionStorage.setItem('paymentVerified', 'true'); // Existing users assumed verified
+                    
+                    if (rememberMe) {
+                        // In production, set a longer-lived cookie/token
+                        localStorage.setItem('rememberUser', 'true');
+                    }
+                    
+                    alert('Signed in successfully! Welcome back!');
+                    
+                    // Redirect to buyer dashboard (or check backend for user's actual role)
+                    window.location.href = 'buyer-dashboard.html';
+                }
+            });
+        });
+
+        // Campus SSO button handlers
+        document.querySelectorAll('.campus-sso-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('Campus SSO integration coming soon!');
+            });
+        });
+    </script>
+</body>
+</html>
