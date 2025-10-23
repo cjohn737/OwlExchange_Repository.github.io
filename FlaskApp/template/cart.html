@@ -1,0 +1,881 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - OwlExchange</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/globals.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        /* Cart Page Specific Styles */
+        .cart-page {
+            padding: 8rem 0;
+            background: var(--background);
+            min-height: 100vh;
+        }
+
+        .cart-header {
+            margin-bottom: 3rem;
+        }
+
+        .cart-header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-header p {
+            color: var(--muted-foreground);
+        }
+
+        .cart-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Cart Items */
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .cart-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cart-item:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cart-item-image {
+            width: 120px;
+            height: 120px;
+            border-radius: calc(var(--radius) - 4px);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .cart-item-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .cart-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .cart-item-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .cart-item-condition {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .condition-badge {
+            background: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .cart-item-seller {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .cart-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 1rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--muted);
+            border-radius: var(--radius);
+            padding: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: white;
+            border: 1px solid var(--border);
+            width: 32px;
+            height: 32px;
+            border-radius: calc(var(--radius) - 4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border-color: var(--primary);
+        }
+
+        .quantity-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quantity-value {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .cart-item-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .remove-btn {
+            background: transparent;
+            border: none;
+            color: var(--muted-foreground);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .remove-btn:hover {
+            color: var(--destructive);
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            position: sticky;
+            top: 120px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            height: fit-content;
+            box-shadow: var(--shadow);
+        }
+
+        .cart-summary h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-row:first-child {
+            padding-top: 0;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .summary-label {
+            color: var(--muted-foreground);
+        }
+
+        .summary-value {
+            font-weight: 600;
+        }
+
+        .summary-total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+            margin-top: 1rem;
+        }
+
+        .promo-code {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .promo-code label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .promo-input-group input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+        }
+
+        .promo-input-group button {
+            padding: 0.75rem 1.5rem;
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .promo-input-group button:hover {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .checkout-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .trust-badges {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--muted);
+            border-radius: var(--radius);
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .empty-cart-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--muted);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .empty-cart-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--muted-foreground);
+        }
+
+        .empty-cart h2 {
+            font-size: 1.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-cart p {
+            color: var(--muted-foreground);
+            margin-bottom: 2rem;
+        }
+
+        /* Saved for Later */
+        .saved-items {
+            margin-top: 4rem;
+        }
+
+        .saved-items h2 {
+            font-size: 1.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .saved-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .saved-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .saved-item:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .saved-item-image {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: calc(var(--radius) - 4px);
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        .saved-item-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .saved-item-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .saved-item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cart-page {
+                padding: 4rem 0;
+            }
+
+            .cart-header h1 {
+                font-size: 2rem;
+            }
+
+            .cart-item {
+                flex-direction: column;
+            }
+
+            .cart-item-image {
+                width: 100%;
+                height: 200px;
+            }
+
+            .cart-item-footer {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .saved-items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="menu-toggle" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <h1 class="logo"><a href="/" style="text-decoration: none; color: inherit;">🦉 OwlExchange</a></h1>
+                </div>
+
+                <nav class="nav">
+                    <a href="/" class="nav-link">Browse</a>
+                    <a href="/sell" class="nav-link">Sell</a>
+                    <a href="/exchange" class="nav-link">Exchange</a>
+                    <a href="/donate" class="nav-link">Donate</a>
+                    <a href="/about" class="nav-link">About</a>
+                </nav>
+
+                <div class="search-container">
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" placeholder="Search items..." class="search-input">
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn-icon search-mobile">
+                        <i data-lucide="search"></i>
+                    </button>
+                    <button class="btn-primary list-item-btn">
+                        <i data-lucide="plus"></i>
+                        <span>List Item</span>
+                    </button>
+                    <button class="btn-icon" onclick="window.location.href='cart.html'">
+                        <i data-lucide="shopping-cart"></i>
+                        <span class="cart-badge" id="cartBadge"></span>
+                    </button>
+                   <a href="/auth" class="btn btn-icon">
+                        <i data-lucide="user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="cart-page">
+        <div class="container">
+            <div class="cart-header">
+                <h1>Shopping Cart</h1>
+                <p><span id="cartItemCount">3</span> items in your cart</p>
+            </div>
+
+            <div class="cart-container" id="cartContainer">
+                <!-- Cart Items Column -->
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart Item 1 -->
+                    <div class="cart-item" data-item-id="1">
+                        <img src="https://images.unsplash.com/photo-1755620500895-b693799658ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1c2VkJTIwdGV4dGJvb2tzJTIwc3RhY2slMjBib29rc3xlbnwxfHx8fDE3NTc5NzY1NDZ8MA&ixlib=rb-4.1.0&q=80&w=400" alt="Calculus Textbook" class="cart-item-image">
+                        
+                        <div class="cart-item-details">
+                            <div class="cart-item-header">
+                                <div>
+                                    <h3 class="cart-item-title">Calculus Textbook (11th Edition)</h3>
+                                    <div class="cart-item-condition">
+                                        <span class="condition-badge">Good Condition</span>
+                                        <span>• Only used for one semester</span>
+                                    </div>
+                                </div>
+                                <button class="remove-btn" onclick="removeItem(1)">
+                                    <i data-lucide="x"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="cart-item-seller">
+                                <i data-lucide="user"></i>
+                                <span>Seller: Sarah M. • Engineering Student</span>
+                            </div>
+                            
+                            <div class="cart-item-footer">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="updateQuantity(1, -1)">
+                                        <i data-lucide="minus"></i>
+                                    </button>
+                                    <span class="quantity-value" id="quantity-1">1</span>
+                                    <button class="quantity-btn" onclick="updateQuantity(1, 1)">
+                                        <i data-lucide="plus"></i>
+                                    </button>
+                                </div>
+                                <div class="cart-item-price" data-price="45">$45.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cart Item 2 -->
+                    <div class="cart-item" data-item-id="2">
+                        <img src="https://images.unsplash.com/photo-1694151569569-8288e3118519?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkb3JtJTIwcm9vbSUyMGZ1cm5pdHVyZSUyMGRlc2t8ZW58MXx8fHwxNzU3OTc2NTQ2fDA&ixlib=rb-4.1.0&q=80&w=400" alt="Desk Chair" class="cart-item-image">
+                        
+                        <div class="cart-item-details">
+                            <div class="cart-item-header">
+                                <div>
+                                    <h3 class="cart-item-title">Dorm Desk Chair - Blue</h3>
+                                    <div class="cart-item-condition">
+                                        <span class="condition-badge">Like New</span>
+                                        <span>• Barely used, excellent condition</span>
+                                    </div>
+                                </div>
+                                <button class="remove-btn" onclick="removeItem(2)">
+                                    <i data-lucide="x"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="cart-item-seller">
+                                <i data-lucide="user"></i>
+                                <span>Seller: Mike T. • Business Major</span>
+                            </div>
+                            
+                            <div class="cart-item-footer">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="updateQuantity(2, -1)">
+                                        <i data-lucide="minus"></i>
+                                    </button>
+                                    <span class="quantity-value" id="quantity-2">1</span>
+                                    <button class="quantity-btn" onclick="updateQuantity(2, 1)">
+                                        <i data-lucide="plus"></i>
+                                    </button>
+                                </div>
+                                <div class="cart-item-price" data-price="30">$30.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cart Item 3 -->
+                    <div class="cart-item" data-item-id="3">
+                        <img src="https://images.unsplash.com/photo-1585155770095-17ba53a46a27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxub3RlYm9vayUyMHBsYW5uZXIlMjBzdHVkZW50fGVufDF8fHx8MTc1Nzk3NjU0Nnww&ixlib=rb-4.1.0&q=80&w=400" alt="Study Bundle" class="cart-item-image">
+                        
+                        <div class="cart-item-details">
+                            <div class="cart-item-header">
+                                <div>
+                                    <h3 class="cart-item-title">Study Supplies Bundle</h3>
+                                    <div class="cart-item-condition">
+                                        <span class="condition-badge">New</span>
+                                        <span>• Notebooks, pens, highlighters</span>
+                                    </div>
+                                </div>
+                                <button class="remove-btn" onclick="removeItem(3)">
+                                    <i data-lucide="x"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="cart-item-seller">
+                                <i data-lucide="user"></i>
+                                <span>Seller: Jessica L. • Art Student</span>
+                            </div>
+                            
+                            <div class="cart-item-footer">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="updateQuantity(3, -1)">
+                                        <i data-lucide="minus"></i>
+                                    </button>
+                                    <span class="quantity-value" id="quantity-3">2</span>
+                                    <button class="quantity-btn" onclick="updateQuantity(3, 1)">
+                                        <i data-lucide="plus"></i>
+                                    </button>
+                                </div>
+                                <div class="cart-item-price" data-price="15">$30.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Summary Column -->
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    
+                    <div class="summary-row">
+                        <span class="summary-label">Subtotal</span>
+                        <span class="summary-value" id="subtotal">$105.00</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span class="summary-label">Campus Pickup</span>
+                        <span class="summary-value" style="color: var(--green-500);">FREE</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span class="summary-label">Platform Fee</span>
+                        <span class="summary-value" id="platformFee">$2.10</span>
+                    </div>
+                    
+                    <div class="summary-row summary-total">
+                        <span class="summary-label">Total</span>
+                        <span class="summary-value" id="total">$107.10</span>
+                    </div>
+
+                    <div class="promo-code">
+                        <label for="promoInput">Promo Code</label>
+                        <div class="promo-input-group">
+                            <input type="text" id="promoInput" placeholder="Enter code">
+                            <button onclick="applyPromo()">Apply</button>
+                        </div>
+                    </div>
+
+                    <div class="checkout-section">
+                        <button class="btn-primary" style="width: 100%; justify-content: center;">
+                            <i data-lucide="lock"></i>
+                            <span>Proceed to Checkout</span>
+                        </button>
+                        
+                        <div class="trust-badges">
+                            <div class="trust-badge">
+                                <i data-lucide="shield-check"></i>
+                                <span>Verified Students</span>
+                            </div>
+                            <div class="trust-badge">
+                                <i data-lucide="map-pin"></i>
+                                <span>Campus Pickup</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved for Later Section -->
+            <div class="saved-items">
+                <h2>Saved for Later (2 items)</h2>
+                
+                <div class="saved-items-grid">
+                    <div class="saved-item">
+                        <img src="https://images.unsplash.com/photo-1716471081169-cb8528a395d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXB0b3AlMjBlbGVjdHJvbmljcyUyMGNvbGxlZ2UlMjBzdHVkZW50fGVufDF8fHx8MTc1Nzk3NjU0OXww&ixlib=rb-4.1.0&q=80&w=400" alt="Laptop Stand" class="saved-item-image">
+                        <h4 class="saved-item-title">Laptop Stand - Aluminum</h4>
+                        <div class="saved-item-price">$25.00</div>
+                        <div class="saved-item-actions">
+                            <button class="btn-primary" style="flex: 1; justify-content: center;">
+                                <span>Move to Cart</span>
+                            </button>
+                            <button class="btn-icon" onclick="removeSaved(1)">
+                                <i data-lucide="trash-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="saved-item">
+                        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBtdWclMjBjdXB8ZW58MXx8fHwxNzU3OTc2NTQ2fDA&ixlib=rb-4.1.0&q=80&w=400" alt="Coffee Maker" class="saved-item-image">
+                        <h4 class="saved-item-title">Mini Coffee Maker</h4>
+                        <div class="saved-item-price">$18.00</div>
+                        <div class="saved-item-actions">
+                            <button class="btn-primary" style="flex: 1; justify-content: center;">
+                                <span>Move to Cart</span>
+                            </button>
+                            <button class="btn-icon" onclick="removeSaved(2)">
+                                <i data-lucide="trash-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>🦉 OwlExchange</h3>
+                    <p>
+                        The sustainable marketplace for students to buy, sell, exchange, and donate items within their campus community.
+                    </p>
+                    <div class="social-links">
+                        <button class="btn-icon">
+                            <i data-lucide="instagram"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i data-lucide="twitter"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i data-lucide="mail"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Safety Guidelines</a></li>
+                        <li><a href="#">Campus Pickup</a></li>
+                        <li><a href="#">Student Verification</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Report an Issue</a></li>
+                        <li><a href="#">Community Guidelines</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Stay Connected</h4>
+                    <p>
+                        Get notified about new listings and sustainability tips.
+                    </p>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Student email" class="newsletter-input">
+                        <button class="btn-primary newsletter-btn">Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 OwlExchange. Building sustainable campus communities.</p>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Community Rules</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Cart functionality
+        function updateQuantity(itemId, change) {
+            const quantityElement = document.getElementById(`quantity-${itemId}`);
+            let currentQuantity = parseInt(quantityElement.textContent);
+            const newQuantity = Math.max(1, currentQuantity + change);
+            
+            quantityElement.textContent = newQuantity;
+            
+            // Update item price
+            const cartItem = document.querySelector(`[data-item-id="${itemId}"]`);
+            const priceElement = cartItem.querySelector('.cart-item-price');
+            const unitPrice = parseFloat(priceElement.dataset.price);
+            priceElement.textContent = `$${(unitPrice * newQuantity).toFixed(2)}`;
+            
+            // Recalculate totals
+            calculateTotals();
+            
+            // Re-initialize icons after DOM update
+            lucide.createIcons();
+        }
+
+        function removeItem(itemId) {
+            if (confirm('Remove this item from your cart?')) {
+                const cartItem = document.querySelector(`[data-item-id="${itemId}"]`);
+                cartItem.style.opacity = '0';
+                cartItem.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    cartItem.remove();
+                    updateCartCount();
+                    calculateTotals();
+                    
+                    // Check if cart is empty
+                    const remainingItems = document.querySelectorAll('.cart-item');
+                    if (remainingItems.length === 0) {
+                        showEmptyCart();
+                    }
+                }, 300);
+            }
+        }
+
+        function calculateTotals() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('.cart-item').forEach(item => {
+                const priceElement = item.querySelector('.cart-item-price');
+                const priceText = priceElement.textContent.replace('$', '');
+                subtotal += parseFloat(priceText);
+            });
+            
+            const platformFee = subtotal * 0.02; // 2% platform fee
+            const total = subtotal + platformFee;
+            
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('platformFee').textContent = `$${platformFee.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function updateCartCount() {
+            const itemCount = document.querySelectorAll('.cart-item').length;
+            document.getElementById('cartItemCount').textContent = itemCount;
+            document.getElementById('cartBadge').textContent = itemCount;
+        }
+
+        function showEmptyCart() {
+            const cartContainer = document.getElementById('cartContainer');
+            cartContainer.innerHTML = `
+                <div class="empty-cart" style="grid-column: 1 / -1;">
+                    <div class="empty-cart-icon">
+                        <i data-lucide="shopping-cart"></i>
+                    </div>
+                    <h2>Your cart is empty</h2>
+                    <p>Start adding items from the marketplace to see them here!</p>
+                    <button class="btn-primary" onclick="window.location.href='../index.html'">
+                        <span>Browse Marketplace</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function applyPromo() {
+            const promoInput = document.getElementById('promoInput');
+            const promoCode = promoInput.value.trim().toUpperCase();
+            
+            if (promoCode === 'STUDENT10') {
+                alert('✅ Promo code applied! 10% discount added.');
+                const currentSubtotal = parseFloat(document.getElementById('subtotal').textContent.replace('$', ''));
+                const discount = currentSubtotal * 0.1;
+                const newSubtotal = currentSubtotal - discount;
+                const platformFee = newSubtotal * 0.02;
+                const total = newSubtotal + platformFee;
+                
+                document.getElementById('subtotal').textContent = `$${newSubtotal.toFixed(2)}`;
+                document.getElementById('platformFee').textContent = `$${platformFee.toFixed(2)}`;
+                document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+                
+                promoInput.value = '';
+            } else if (promoCode === '') {
+                alert('Please enter a promo code.');
+            } else {
+                alert('Invalid promo code. Try STUDENT10 for 10% off!');
+            }
+        }
+
+        function removeSaved(itemId) {
+            if (confirm('Remove this item from saved items?')) {
+                const savedItem = event.target.closest('.saved-item');
+                savedItem.style.opacity = '0';
+                savedItem.style.transform = 'scale(0.9)';
+                
+                setTimeout(() => {
+                    savedItem.remove();
+                }, 300);
+            }
+        }
+
+        // Initialize totals on page load
+        calculateTotals();
+    </script>
+</body>
+
+</html>
+
